@@ -1,23 +1,16 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { connection } from "next/server";
-import AddBookForm from "@/components/add-book-form";
+import { addBookAction } from "@/app/books/actions";
+import BookForm from "@/components/book-form";
 import BookList from "@/components/book-list";
+import Notice from "@/components/notice";
 import { getBooks, type Book } from "@/lib/books";
 import { isDbConfigured } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Books",
 };
-
-function Notice({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div className="rounded-lg border border-line bg-card p-5">
-      <h2 className="font-display text-lg font-semibold">{title}</h2>
-      <p className="mt-1 text-sm text-muted">{children}</p>
-    </div>
-  );
-}
 
 // Runs on every request: the database settings only exist on the server at
 // run time, and the book list changes whenever someone adds a book.
@@ -47,7 +40,11 @@ async function Shelf() {
 
   return (
     <>
-      <AddBookForm />
+      <BookForm
+        action={addBookAction}
+        submitLabel="Add book"
+        pendingLabel="Adding..."
+      />
       <BookList books={books} />
     </>
   );

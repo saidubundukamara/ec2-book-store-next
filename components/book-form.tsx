@@ -1,18 +1,30 @@
 "use client";
 
 import { useActionState } from "react";
-import { addBookAction, type AddBookState } from "@/app/books/actions";
+import type { BookFormState } from "@/app/books/actions";
 
-const initialState: AddBookState = { error: null };
+const initialState: BookFormState = { error: null };
 
 const inputClass =
   "w-full rounded-md border border-line bg-card px-3 py-2 text-sm outline-none focus:border-accent";
 
-export default function AddBookForm() {
-  const [state, formAction, pending] = useActionState(
-    addBookAction,
-    initialState,
-  );
+type Props = {
+  action: (prev: BookFormState, formData: FormData) => Promise<BookFormState>;
+  submitLabel: string;
+  pendingLabel: string;
+  defaultTitle?: string;
+  defaultAuthor?: string;
+};
+
+// One form for both adding and editing a book.
+export default function BookForm({
+  action,
+  submitLabel,
+  pendingLabel,
+  defaultTitle,
+  defaultAuthor,
+}: Props) {
+  const [state, formAction, pending] = useActionState(action, initialState);
 
   return (
     <form action={formAction} className="mb-10">
@@ -21,6 +33,7 @@ export default function AddBookForm() {
           name="title"
           placeholder="Title"
           aria-label="Title"
+          defaultValue={defaultTitle}
           required
           maxLength={255}
           className={inputClass}
@@ -29,6 +42,7 @@ export default function AddBookForm() {
           name="author"
           placeholder="Author"
           aria-label="Author"
+          defaultValue={defaultAuthor}
           required
           maxLength={255}
           className={inputClass}
@@ -38,7 +52,7 @@ export default function AddBookForm() {
           disabled={pending}
           className="shrink-0 rounded-md bg-accent px-5 py-2 text-sm font-medium text-white hover:opacity-90 disabled:opacity-60"
         >
-          {pending ? "Adding..." : "Add book"}
+          {pending ? pendingLabel : submitLabel}
         </button>
       </div>
       {state.error && (

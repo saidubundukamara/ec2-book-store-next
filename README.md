@@ -9,7 +9,8 @@ PostgreSQL database (Amazon RDS).
 | Route    | What it shows                                  |
 | -------- | ---------------------------------------------- |
 | `/`       | Welcome page with the hostname and database status |
-| `/books`  | The book list from the database, and a form to add one |
+| `/books`  | The book list from the database, with add, edit and delete |
+| `/books/[id]/edit` | Form to change a book's title and author    |
 | `/health` | Health check for the load balancer (JSON)          |
 
 ## Database settings
@@ -24,6 +25,9 @@ The app reads these environment variables when it starts:
 | `DB_PASSWORD` | (none)      |                                                |
 | `DB_NAME`     | `bookstore` | The database must already exist                |
 | `DB_SSL`      | on          | Set to `false` for a local PostgreSQL without SSL |
+
+There is no login: anyone who can open the site can add, edit and delete
+books.
 
 The `books` table is created automatically the first time the app talks to
 the database.

@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EC2 Book Store (Next.js)
 
-## Getting Started
+The Next.js version of the bootcamp book store app. It shows which server
+answered the request (the EC2 hostname) and a list of books.
 
-First, run the development server:
+## Pages
+
+| Route    | What it shows                                  |
+| -------- | ---------------------------------------------- |
+| `/`      | Welcome page with the hostname of the server   |
+| `/books` | The book list                                  |
+
+## Run it locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Run it in production (EC2)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm ci
+npm run build
+PORT=3000 npm start
+```
 
-## Learn More
+Next.js 16 needs Node.js 20.9 or newer.
 
-To learn more about Next.js, take a look at the following resources:
+## Branches
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `main`: the book list is hardcoded in `lib/books.ts`, no database needed.
+- `week-4-rds-postgres`: reads and adds books in a PostgreSQL (RDS) database.
